@@ -1,0 +1,10 @@
+spring:
+    application:
+       name: fastdelivery
+    profiles:
+       active: local,default
+    datasource:
+       url: jdbc:postgresql://localhost:5432/postgres?currentSchema=delivery
+       username: postgres
+       password: root
+       driver-class-name: org.postgresql.Driver

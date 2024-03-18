@@ -4,11 +4,11 @@ import br.com.ediwaldoneto.fastdelivery.domain.entities.User;
 
 public interface UserServicePort {
 
-	void registerUser(User user);
+	void registerUser(final User user);
 
 	User getUser(final Long id);
 
-	User updateUser(final Long id);
+	User updateUser(final User user);
 
 	void deleteUser(final Long id);
 

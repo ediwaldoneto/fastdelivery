@@ -4,11 +4,11 @@ import br.com.ediwaldoneto.fastdelivery.domain.entities.User;
 
 public interface UserRepositoryPort {
 
-	void save(User user);
+	void save(final User user);
 
 	User findById(final Long id);
 
-	User update(User user);
+	User update(final User user);
 
 	void delete(final Long id);
 }

@@ -1,5 +1,7 @@
 package br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.repository;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -43,13 +45,26 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
 	@Override
 	public User update(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		final String sql = "UPDATE usr SET :name, :email, :phone, :address, :type, :password where id = :id";
+		MapSqlParameterSource param = new MapSqlParameterSource();
+		param.addValue("id", user.getId());
+		param.addValue("name", user.getName());
+		param.addValue("email", user.getEmail());
+		param.addValue("phone", user.getEmail());
+		param.addValue("address", user.getAddress());
+		param.addValue("type", user.getType());
+		param.addValue("password", user.getPassword());
+		Map<String, Object> updatedUserMap = jdbcTemplate.queryForMap(sql, param);
+		return User.fromMap(updatedUserMap);
+		
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
+		final String sql = "DELETE FROM usr WHERE id = :id";
+		MapSqlParameterSource param = new MapSqlParameterSource();
+		param.addValue("id", id);
+		jdbcTemplate.update(sql, param);
 
 	}
 

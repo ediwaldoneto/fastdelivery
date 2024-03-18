@@ -1,24 +1,17 @@
-package br.com.ediwaldoneto.fastdelivery.domain.entities;
+package br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.web.request;
 
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class User {
 
-	private Long id;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserRequest {
+
 	private String name;
 	private String email;
 	private String phone;
 	private String address;
 	private String type;
 	private String password;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -67,18 +60,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public static User fromMap(Map<String, Object> map) {
-	    User user = new User();
-	    user.setId((Long) map.get("id"));
-	    user.setName((String) map.get("name"));
-	    user.setEmail((String) map.get("email"));
-	    user.setPhone((String) map.get("phone"));
-	    user.setAddress((String) map.get("address"));
-	    user.setType((String) map.get("type"));
-	    user.setPassword((String) map.get("password"));
-	    return user;
-	}
-
 
 }

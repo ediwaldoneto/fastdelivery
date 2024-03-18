@@ -29,15 +29,13 @@ public class UserService implements UserServicePort {
 	}
 
 	@Override
-	public User updateUser(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public User updateUser(User user) {
+		return userRepositoryPort.update(user);
 	}
 
 	@Override
 	public void deleteUser(Long id) {
-		// TODO Auto-generated method stub
-
+		userRepositoryPort.delete(id);
 	}
 
 }

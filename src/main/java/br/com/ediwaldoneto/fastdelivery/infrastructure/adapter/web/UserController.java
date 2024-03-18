@@ -28,7 +28,6 @@ public class UserController {
 		User user = UserMapper.INSTANCE.toDomain(dto);
 		userServicePort.registerUser(user);
 		return ResponseEntity.ok().build();
-
 	}
 
 }

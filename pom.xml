@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>br.com.ediwaldoneto</groupId>
 	<artifactId>fastdelivery</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>fastdelivery</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -30,7 +30,6 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

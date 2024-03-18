@@ -3,6 +3,7 @@ package br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.repository;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import br.com.ediwaldoneto.fastdelivery.domain.entities.User;
 import br.com.ediwaldoneto.fastdelivery.domain.port.repository.UserRepositoryPort;
+import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.DuplicateEmailException;
+import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.GeneralException;
 
 @Repository
 public class UserRepositoryAdapter implements UserRepositoryPort {
@@ -32,7 +35,16 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 		param.addValue("address", user.getAddress());
 		param.addValue("type", user.getType());
 		param.addValue("password", user.getPassword());
-		jdbcTemplate.update(sql, param);
+		try {
+			jdbcTemplate.update(sql, param);
+		} catch (DataAccessException e) {
+			if (e.getCause().getLocalizedMessage().contains("Chave (email)=(string) já existe.")) {
+				throw new DuplicateEmailException("The email provided is already registered.");
+			}
+
+		} catch (Exception e) {
+			throw new GeneralException(e.getMessage());
+		}
 	}
 
 	@Override
@@ -56,7 +68,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 		param.addValue("password", user.getPassword());
 		Map<String, Object> updatedUserMap = jdbcTemplate.queryForMap(sql, param);
 		return User.fromMap(updatedUserMap);
-		
+
 	}
 
 	@Override

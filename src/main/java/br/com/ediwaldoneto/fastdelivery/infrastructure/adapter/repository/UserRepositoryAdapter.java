@@ -28,7 +28,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 	@Override
 	public void save(User user) {
 		final String sql = "INSERT INTO usr (name, email, phone, address, type, password, id) VALUES "
-				+ " (:name, :email, :phone, :address, :type, :password, nextval('delivery.usr_id_seq'::regclass)) ON CONFLICT (id) DO NOTHING";
+				+ " (:name, :email, :phone, :address, :type, :password, nextval('usr_id_seq'::regclass)) ON CONFLICT (id) DO NOTHING";
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue(Constants.NAME, user.getName());
 		param.addValue(Constants.EMAIL, user.getEmail());

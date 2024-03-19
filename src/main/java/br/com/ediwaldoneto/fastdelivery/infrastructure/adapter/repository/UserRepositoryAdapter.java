@@ -1,9 +1,8 @@
 package br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.repository;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,6 +12,8 @@ import br.com.ediwaldoneto.fastdelivery.domain.entities.User;
 import br.com.ediwaldoneto.fastdelivery.domain.port.repository.UserRepositoryPort;
 import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.DuplicateEmailException;
 import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.GeneralException;
+import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.UpdateFailedException;
+import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.UserNotFoundException;
 import br.com.ediwaldoneto.fastdelivery.util.Constants;
 
 @Repository
@@ -53,12 +54,16 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 		final String sql = "SELECT name, email, phone, address, type, password, id FROM usr where id = :id";
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("id", id);
-		return jdbcTemplate.queryForObject(sql, param, userMapper());
+		try {
+			return jdbcTemplate.queryForObject(sql, param, userMapper());
+		} catch (EmptyResultDataAccessException e) {
+			throw new UserNotFoundException("User not found");
+		}
 	}
 
 	@Override
 	public User update(User user) {
-		final String sql = "UPDATE usr SET :name, :email, :phone, :address, :type, :password where id = :id";
+		final String sql = "UPDATE usr SET name= :name, email= :email, phone= :phone, address= :address, type= :type, password= :password where id = :id";
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("id", user.getId());
 		param.addValue(Constants.NAME, user.getName());
@@ -67,8 +72,19 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 		param.addValue(Constants.ADDRESS, user.getAddress());
 		param.addValue(Constants.TYPE, user.getType());
 		param.addValue(Constants.PASSWORD, user.getPassword());
-		Map<String, Object> updatedUserMap = jdbcTemplate.queryForMap(sql, param);
-		return User.fromMap(updatedUserMap);
+
+		try {
+			int updatedUser = jdbcTemplate.update(sql, param);
+			if (updatedUser == 0) {
+				throw new UpdateFailedException("No rows updated.");
+			}
+
+		} catch (DataAccessException e) {
+			if (e.getCause().getLocalizedMessage().contains("Chave (email)")) {
+				throw new DuplicateEmailException("The email provided is already registered.");
+			}
+		}
+		return user;
 
 	}
 

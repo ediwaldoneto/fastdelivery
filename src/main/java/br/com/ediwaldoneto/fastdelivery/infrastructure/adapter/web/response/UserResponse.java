@@ -1,6 +1,6 @@
-package br.com.ediwaldoneto.fastdelivery.domain.entities;
+package br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.web.response;
 
-public class User {
+public class UserResponse {
 
 	private Long id;
 	private String name;
@@ -8,7 +8,6 @@ public class User {
 	private String phone;
 	private String address;
 	private String type;
-	private String password;
 
 	public Long getId() {
 		return id;
@@ -56,14 +55,6 @@ public class User {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 }

@@ -5,6 +5,7 @@ import org.mapstruct.factory.Mappers;
 
 import br.com.ediwaldoneto.fastdelivery.domain.entities.User;
 import br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.web.request.UserRequest;
+import br.com.ediwaldoneto.fastdelivery.infrastructure.adapter.web.response.UserResponse;
 
 @Mapper
 public interface UserMapper {
@@ -13,6 +14,6 @@ public interface UserMapper {
 
 	User toDomain(UserRequest request);
 
-	UserRequest toRequest(User user);
+	UserResponse toResponse(User user);
 
 }

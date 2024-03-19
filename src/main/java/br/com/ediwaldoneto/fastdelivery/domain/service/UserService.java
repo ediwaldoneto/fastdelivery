@@ -1,5 +1,6 @@
 package br.com.ediwaldoneto.fastdelivery.domain.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,10 @@ public class UserService implements UserServicePort {
 	}
 
 	@Override
-	public User updateUser(User user) {
-		return userRepositoryPort.update(user);
+	public User updateUser(Long id, User user) {
+		User userUpdate = getUser(id);
+		BeanUtils.copyProperties(user, userUpdate, "id");
+		return userRepositoryPort.update(userUpdate);
 	}
 
 	@Override

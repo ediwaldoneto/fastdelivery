@@ -8,7 +8,7 @@ public interface UserServicePort {
 
 	User getUser(final Long id);
 
-	User updateUser(final User user);
+	User updateUser(final Long id, final User user);
 
 	void deleteUser(final Long id);
 

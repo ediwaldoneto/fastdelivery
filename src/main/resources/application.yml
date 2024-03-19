@@ -4,7 +4,8 @@ spring:
     profiles:
        active: local,default
     datasource:
-       url: jdbc:postgresql://localhost:5432/postgres?currentSchema=delivery
+       url: jdbc:postgresql://localhost:5432/postgres
        username: postgres
        password: root
        driver-class-name: org.postgresql.Driver
+       schema: delivery

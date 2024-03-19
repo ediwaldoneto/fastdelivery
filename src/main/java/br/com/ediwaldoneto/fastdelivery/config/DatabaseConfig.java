@@ -21,8 +21,8 @@ public class DatabaseConfig {
 	@Value("${spring.datasource.password}")
 	private String datasourcePassword;
 
-//	@Value("${spring.datasource.schema}")
-//	private String datasourceSchema;
+	@Value("${spring.datasource.schema}")
+	private String datasourceSchema;
 
 	@Value("${spring.datasource.driver-class-name}")
 	private String driverName;
@@ -33,7 +33,7 @@ public class DatabaseConfig {
 		dataSource.setJdbcUrl(datasourceUrl);
 		dataSource.setUsername(datasourceUsername);
 		dataSource.setPassword(datasourcePassword);
-//		dataSource.setSchema(datasourceSchema);
+		dataSource.setSchema(datasourceSchema);
 		dataSource.setDriverClassName(driverName);
 		return dataSource;
 	}

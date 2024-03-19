@@ -63,14 +63,14 @@
 			  <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-                <release>17</release> <!-- Use a versão do Java que você está usando -->
+                <release>17</release> 
                 <annotationProcessorPaths>
                     <path>
                         <groupId>org.mapstruct</groupId>
                         <artifactId>mapstruct-processor</artifactId>
                         <version>1.4.2.Final</version>
                     </path>
-                    <!-- Inclua outros processadores de anotações aqui, se necessário -->
+                   
                 </annotationProcessorPaths>
             </configuration>
         </plugin>

@@ -13,6 +13,7 @@ import br.com.ediwaldoneto.fastdelivery.domain.entities.User;
 import br.com.ediwaldoneto.fastdelivery.domain.port.repository.UserRepositoryPort;
 import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.DuplicateEmailException;
 import br.com.ediwaldoneto.fastdelivery.infrastructure.exception.GeneralException;
+import br.com.ediwaldoneto.fastdelivery.util.Constants;
 
 @Repository
 public class UserRepositoryAdapter implements UserRepositoryPort {
@@ -29,16 +30,16 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 		final String sql = "INSERT INTO usr (name, email, phone, address, type, password, id) VALUES "
 				+ " (:name, :email, :phone, :address, :type, :password, nextval('delivery.usr_id_seq'::regclass)) ON CONFLICT (id) DO NOTHING";
 		MapSqlParameterSource param = new MapSqlParameterSource();
-		param.addValue("name", user.getName());
-		param.addValue("email", user.getEmail());
-		param.addValue("phone", user.getEmail());
-		param.addValue("address", user.getAddress());
-		param.addValue("type", user.getType());
-		param.addValue("password", user.getPassword());
+		param.addValue(Constants.NAME, user.getName());
+		param.addValue(Constants.EMAIL, user.getEmail());
+		param.addValue(Constants.PHONE, user.getPhone());
+		param.addValue(Constants.ADDRESS, user.getAddress());
+		param.addValue(Constants.TYPE, user.getType());
+		param.addValue(Constants.PASSWORD, user.getPassword());
 		try {
 			jdbcTemplate.update(sql, param);
 		} catch (DataAccessException e) {
-			if (e.getCause().getLocalizedMessage().contains("Chave (email)=(string) já existe.")) {
+			if (e.getCause().getLocalizedMessage().contains("Chave (email)")) {
 				throw new DuplicateEmailException("The email provided is already registered.");
 			}
 
@@ -60,12 +61,12 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 		final String sql = "UPDATE usr SET :name, :email, :phone, :address, :type, :password where id = :id";
 		MapSqlParameterSource param = new MapSqlParameterSource();
 		param.addValue("id", user.getId());
-		param.addValue("name", user.getName());
-		param.addValue("email", user.getEmail());
-		param.addValue("phone", user.getEmail());
-		param.addValue("address", user.getAddress());
-		param.addValue("type", user.getType());
-		param.addValue("password", user.getPassword());
+		param.addValue(Constants.NAME, user.getName());
+		param.addValue(Constants.EMAIL, user.getEmail());
+		param.addValue(Constants.PHONE, user.getPhone());
+		param.addValue(Constants.ADDRESS, user.getAddress());
+		param.addValue(Constants.TYPE, user.getType());
+		param.addValue(Constants.PASSWORD, user.getPassword());
 		Map<String, Object> updatedUserMap = jdbcTemplate.queryForMap(sql, param);
 		return User.fromMap(updatedUserMap);
 
